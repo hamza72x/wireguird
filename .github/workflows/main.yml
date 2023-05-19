@@ -11,9 +11,17 @@ jobs:
           chmod +x ./*.sh
           ./deps.sh
           ./package.sh
-          ./install.sh
-      - uses: jtdor/build-deb-action@v1
-        env:
-          DEB_BUILD_OPTIONS: noautodbgsym
+      - uses: jiro4989/build-deb-action@v2
         with:
-          buildpackage-opts: --build=binary --no-sign
+          package: wireguard
+          package_root: .debpkg
+          maintainer: UnnoTed
+          version: ${{ github.ref }}-amd64 # refs/tags/v*.*.*
+          arch: 'amd64'
+      - uses: jiro4989/build-deb-action@v2
+        with:
+          package: wireguard
+          package_root: .debpkg
+          maintainer: UnnoTed
+          version: ${{ github.ref }}-aarch64 # refs/tags/v*.*.*
+          arch: 'aarch64'
