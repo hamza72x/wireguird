@@ -1,0 +1,19 @@
+on: push
+
+jobs:
+  build-debs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup pre-requisites
+        run: |
+          chmod +x ./*.sh
+          ./deps.sh
+          ./package.sh
+          ./install.sh
+      - uses: jtdor/build-deb-action@v1
+        env:
+          DEB_BUILD_OPTIONS: noautodbgsym
+        with:
+          buildpackage-opts: --build=binary --no-sign
